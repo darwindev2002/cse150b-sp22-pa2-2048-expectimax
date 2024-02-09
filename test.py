@@ -2,6 +2,7 @@
 from ai import *
 import time
 
+
 def read_sol_line(line):
     split = line.split(" ")
     sol_direction = int(split[0])
@@ -9,13 +10,17 @@ def read_sol_line(line):
 
     return sol_direction, sol_score
 
+
 def print_test_result(result, item):
     if result:
         print("PASSED: Correct {}.".format(item))
     else:
         print("FAILED: Incorrect {}.".format(item))
 
+
 TOL = 0.001
+
+
 def test(board_file='test_states', sol_file='test_sols'):
     game = Game()
     with open(board_file) as file:
@@ -30,10 +35,13 @@ def test(board_file='test_states', sol_file='test_sols'):
         ai = AI(game.current_state())
         ai.build_tree(ai.root, ai.search_depth)
         direction, score = ai.expectimax(ai.root)
+        # print(f"direction, score = {direction}, {score}")
 
         sol_direction, sol_score = read_sol_line(sol_lines[i])
 
-        print_test_result((score >= sol_score - TOL) and score <= (sol_score + TOL), "expected score")
+        print_test_result((score >= sol_score - TOL) and score <=
+                          (sol_score + TOL), "expected score")
+
 
 def get_best_tile(tile_matrix):
     best_tile = 0
@@ -44,10 +52,12 @@ def get_best_tile(tile_matrix):
                 best_tile = tile
     return best_tile
 
+
 NUM_TESTS = 10
 REQ_PASSES = 4
 MIN_SCORE = 20000
 TIME_LIMIT = 30
+
 
 def test_ec():
     game = Game()
@@ -67,7 +77,8 @@ def test_ec():
             if elapsed > TIME_LIMIT:
                 print("\tTime limit of {} seconds broken. Exiting...".format(TIME_LIMIT))
                 break
-        print("\tScore/Best Tile: {}/{}".format(game.score, get_best_tile(game.tile_matrix)))
+        print("\tScore/Best Tile: {}/{}".format(game.score,
+              get_best_tile(game.tile_matrix)))
         if game.score >= MIN_SCORE:
             print("\tSUFFICIENT")
             passes += 1
@@ -78,4 +89,3 @@ def test_ec():
         print("FAILED (less than {} passes)".format(REQ_PASSES))
     else:
         print("PASSED")
-

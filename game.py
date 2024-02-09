@@ -1,14 +1,17 @@
 # NOTE: Do not modify.
-import copy, random
+import copy
+import random
 
 # Game mechanics engine. Used by both the UI and the simulator.
+
+
 class Game:
-    def __init__(self, init_tile_matrix = None, init_score = 0):
+    def __init__(self, init_tile_matrix=None, init_score=0):
         self.board_size = 4
         self.set_state(init_tile_matrix, init_score)
 
     # set the game state using the given initialization state and total points
-    def set_state(self, init_tile_matrix = None, init_score = 0):
+    def set_state(self, init_tile_matrix=None, init_score=0):
         self.undoMat = []
         self.score = init_score
         if init_tile_matrix == None:
@@ -34,7 +37,7 @@ class Game:
     def rotate_matrix_clockwise(self):
         tm = self.tile_matrix
         for i in range(0, int(self.board_size/2)):
-            for k in range(i, self.board_size- i - 1):
+            for k in range(i, self.board_size - i - 1):
                 temp1 = tm[i][k]
                 temp2 = tm[self.board_size - 1 - k][i]
                 temp3 = tm[self.board_size - 1 - i][self.board_size - 1 - k]
@@ -48,6 +51,8 @@ class Game:
     def move(self, direction):
         moved = False
         self.addToUndo()
+        # Turn clockwise, so move-direction -> move up
+        # e.g. push left -- (rotate clockwise * 1) --> push up
         for i in range(0, direction):
             self.rotate_matrix_clockwise()
         if self.can_move():
@@ -89,8 +94,8 @@ class Game:
 
     def place_random_tile(self):
         while True:
-            i = random.randint(0,self.board_size-1)
-            j = random.randint(0,self.board_size-1)
+            i = random.randint(0, self.board_size-1)
+            j = random.randint(0, self.board_size-1)
             if self.tile_matrix[i][j] == 0:
                 break
         self.tile_matrix[i][j] = 2
@@ -102,7 +107,7 @@ class Game:
             self.score = m[1]
 
     def addToUndo(self):
-        self.undoMat.append((copy.deepcopy(self.tile_matrix),self.score))
+        self.undoMat.append((copy.deepcopy(self.tile_matrix), self.score))
 
     def save_state(self, filename="savedata"):
         f = open(filename, "w")
@@ -116,13 +121,14 @@ class Game:
         self.load_state_line(f.readline())
         f.close()
 
-    def load_state_line(self,line):
+    def load_state_line(self, line):
         split = line.split(' ')
         self.board_size = int(split[0])
         new_score = int(split[1])
         new_tm = self.new_tile_matrix()
         for i in range(0, self.board_size ** 2):
-            new_tm[int(i / self.board_size)][i % self.board_size] = int(split[2 + i])
+            new_tm[int(i / self.board_size)][i %
+                                             self.board_size] = int(split[2 + i])
         self.set_state(new_tm, new_score)
 
     # returns a list of all open (value 0) tiles
@@ -147,7 +153,7 @@ class Game:
         return (self.tile_matrix, self.score)
 
     # WARNING: Deprecated: do not call this function in ai.py
-    def reset(self, init_tile_matrix = None, init_score = 0):
+    def reset(self, init_tile_matrix=None, init_score=0):
         self.undoMat = []
         self.score = init_score
         if init_tile_matrix == None:
@@ -157,4 +163,3 @@ class Game:
         else:
             self.tile_matrix = copy.deepcopy(init_tile_matrix)
         self.board_size = len(self.tile_matrix)
-
