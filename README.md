@@ -82,3 +82,7 @@ Tips & FAQ
 - Before you begin, it's wise to first get familiar with the workflow of the program and instance variables across files. We're just going to keep advising you do that in case you don't already :)
 - Again, you may find `pdb` extremely helpful to understand and debug your code. It is the Python debugger, similar to `GDB`. Here's a [quick tutorial](https://www.youtube.com/watch?v=VQjCx3P89yk&ab_channel=TutorialEdge).
 - Set up a virtual environment (refer to PA1 for setting up Anaconda) if you don't want to pollute your global package space. This is optional, and if it takes too much time, probably not worth it.
+
+Ref (Darwin)
+-----
+- [Better heuristic evaluation method - Minimax and Expectimax Algorithm to Solve 2048](https://informatika.stei.itb.ac.id/~rinaldi.munir/Stmik/2013-2014-genap/Makalah2014/MakalahIF2211-2014-037.pdf)
